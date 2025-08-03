@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Notes | StudyShare</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #050505;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        nav {
+            background: rgb(71, 100, 228);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        main.browse-container {
+            padding: 2rem 5%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -10px;
+            left: 0;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        .search-filter {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .search-bar {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            padding-right: 50px;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .search-btn:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
+        
+        .filters {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--gray);
+        }
+        
+        .filter-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .suggestions-container {
+            position: absolute;
+            width: calc(100% - 3rem);
+            max-width: 800px;
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 0 0 10px 10px;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .suggestion-item {
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .suggestion-item:hover {
+            background-color: var(--light);
+            color: var(--primary);
+        }
+        
+        .note-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .note-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .note-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .note-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+        }
+        
+        .note-header {
+            padding: 1.5rem 1.5rem 0;
+        }
+        
+        .note-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .note-meta {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .rating {
+            color: #ffc107;
+        }
+        
+        .course-info {
+            margin: 0.5rem 1.5rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .course-info i {
+            color: var(--accent);
+        }
+        
+        .note-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--light-gray);
+            margin-top: 1rem;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .btn-outline {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .filters {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .note-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        /* Animation for note cards */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .note-card {
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+        
+        .note-card:nth-child(1) { animation-delay: 0.1s; }
+        .note-card:nth-child(2) { animation-delay: 0.2s; }
+        .note-card:nth-child(3) { animation-delay: 0.3s; }
+        .note-card:nth-child(4) { animation-delay: 0.4s; }
+        .note-card:nth-child(5) { animation-delay: 0.5s; }
+        .note-card:nth-child(6) { animation-delay: 0.6s; }
+        .note-card:nth-child(7) { animation-delay: 0.7s; }
+        .note-card:nth-child(8) { animation-delay: 0.8s; }
+        .note-card:nth-child(9) { animation-delay: 0.9s; }
+        .note-card:nth-child(10) { animation-delay: 1.0s; }
+        
+        /* Badge for popular notes */
+        .popular-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--warning);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo"><i class="fas fa-book-open"></i> StudyShare</a>
+        <div class="nav-links">
+            <a href="browse.html">Browse Notes</a>
+            <a href="upload.html">Upload</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </nav>
+
+    <main class="browse-container">
+        <h1>Discover Premium Study Materials</h1>
+        
+        <div class="search-filter">
+            <div class="search-bar">
+                <input type="text" id="search-bar" placeholder="Search by course, professor, or topic..." />
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label><i class="fas fa-sort-amount-down"></i> Sort By:</label>
+                    <select id="sort-by">
+                        <option>Newest</option>
+                        <option>Top Rated</option>
+                        <option>Price Low-High</option>
+                        <option>Price High-Low</option>
+                        <option>Most Popular</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-graduation-cap"></i> Course:</label>
+                    <select id="course-filter">
+                        <option>All Courses</option>
+                        <option>Computer Science</option>
+                        <option>Web Engineering</option>
+                        <option>Mathematics</option>
+                        <option>Statistics</option>
+                        <option>Economics</option>
+                        <option>Business</option>
+                        <option>Language</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Suggestions Container -->
+        <div id="suggestions" class="suggestions-container"></div>
+
+        <div class="note-grid">
+            <!-- Web Engineering Note -->
+            <div class="note-card">
+                <span class="popular-badge">BESTSELLER</span>
+                <div class="note-header">
+                    <h3>Web Engineering - Complete Lecture Notes</h3>
+                    <div class="note-meta">
+                        <span class="rating">★★★★★ (42)</span>
+                        <span class="downloads"><i class="fas fa-download"></i> 2.5k</span>
+                    </div>
+                </div>
+                <p class="course-info"><i class="fas fa-user-tie"></i> Professor Md. Shahajalal • <i class="fas fa-file-alt"></i> 15 pages</p>
+                <div class="note-footer">
+                    <span class="price">৳800</span>
+                    <a href="product.html?id=web101&title=Web+Engineering+-+Complete+Lecture+Notes&professor=Md.+Shahajalal&pages=15&rating=5.0&downloads=2500&price=3.99" class="btn-outline">View Details <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Data Structures Note -->
+            <div class="note-card">
+                <span class="popular-badge">POPULAR</span>
+                <div class="note-header">
+                    <h3>Data Structures and Algorithms - Comprehensive Guide</h3>
+                    <div class="note-meta">
+                        <span class="rating">★★★★☆ (36)</span>
+                        <span class="downloads"><i class="fas fa-download"></i> 1.8k</span>
+                    </div>
+                </div>
+                <p class="course-info"><i class="fas fa-user-tie"></i> Jakaria Zobair • <i class="fas fa-file-alt"></i> 28 pages</p>
+                <div class="note-footer">
+                    <span class="price">৳600</span>
+                    <a href="product.html?id=ds101&title=Data+Structures+and+Algorithms+-+Comprehensive+Guide&professor=Jakaria+Zobair&pages=28&rating=4.5&downloads=1800&price=5.99" class="btn-outline">View Details <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Algorithm Note -->
+            <div class="note-card">
+                <div class="note-header">
+                    <h3>Advanced Algorithm Design Techniques</h3>
+                    <div class="note-meta">
+                        <span class="rating">★★★★★ (28)</span>
+                        <span class="downloads"><i class="fas fa-download"></i> 1.2k</span>
+                    </div>
+                </div>
+                <p class="course-info"><i class="fas fa-user-tie"></i> Mohammad Asifur Rahim • <i class="fas fa-file-alt"></i> 22 pages</p>
+                <div class="note-footer">
+                    <span class="price">৳500</span>
+                    <a href="product.html?id=algo201&title=Advanced+Algorithm+Design+Techniques&professor=Mohammad+Asifur+Rahim&pages=22&rating=5.0&downloads=1200&price=4.99" class="btn-outline">View Details <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Statistics Note -->
+            <div class="note-card">
+                <div class="note-header">
+                    <h3>Probability and Statistics for Engineers</h3>
+                    <div class="note-meta">
+                        <span class="rating">★★★★☆ (33)</span>
+                        <span class="downloads"><i class="fas fa-download"></i> 950</span>
+                    </div>
+                </div>
+                <p class="course-info"><i class="fas fa-user-tie"></i> Nazmin Akter Swarna • <i class="fas fa-file-alt"></i> 35 pages</p>
+                <div class="note-footer">
+                    <span class="price">৳300</span>
+                    <a href="product.html?id=stats201&title=Probability+and+Statistics+for+Engineers&professor=Nazmin+Akter+Swarna&pages=35&rating=4.3&downloads=950&price=6.50" class="btn-outline">View Details <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Calculus Note -->
+            <div class="note-card">
+                <span class="popular-badge">NEW</span>
+                <div class="note-header">
+                    <h3>Calculus III - Multivariable Concepts</h3>
+                    <div class="note-meta">
+                        <span class="rating">★★★★★ (56)</span>
+                        <span class="downloads"><i class="fas fa-download"></i> 3.1k</span>
+                    </div>
+                </div>
+                <p class="course-info"><i class="fas fa-user-tie"></i> Professor J. Khan • <i class="fas fa-file-alt"></i> 42 pages</p>
+                <div class="note-footer">
+                    <span class="price">৳500</span>
+                    <a href="product.html?id=calc301&title=Calculus+III+-+Multivariable+Concepts&professor=J.+Khan&pages=42&rating=5.0&downloads=3100&price=7.99" class="btn-outline">View Details <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Economics Note -->
+            <div class="note-card">
+                <div class="note-header">
+                    <h3>Principles of Microeconomics</h3>
+                    <div class="note-meta">
+                        <span class="rating">★★★★☆ (19)</span>
+                        <span class="downloads"><i class="fas fa-download"></i> 1.1k</span>
+                    </div>
+                </div>
+                <p class="course-info"><i class="fas fa-user-tie"></i> Rifah Tamannah Shammi • <i class="fas fa-file-alt"></i> 30 pages</p>
+                <div class="note-footer">
+                    <span class="price">৳550</span>
+                    <a href="product.html?id=econ101&title=Principles+of+Microeconomics&professor=Rifah+Tamannah+Shammi&pages=30&rating=4.2&downloads=1100&price=4.99" class="btn-outline">View Details <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Accounting Note -->
+            <div class="note-card">
+                <div class="note-header">
+                    <h3>Financial Accounting Fundamentals</h3>
+                    <div class="note-meta">
+                        <span class="rating">★★★★★ (48)</span>
+                        <span class="downloads"><i class="fas fa-download"></i> 2.7k</span>
+                    </div>
+                </div>
+                <p class="course-info"><i class="fas fa-user-tie"></i> Agnishwar Nath • <i class="fas fa-file-alt"></i> 38 pages</p>
+                <div class="note-footer">
+                    <span class="price">৳350</span>
+                    <a href="product.html?id=acc101&title=Financial+Accounting+Fundamentals&professor=Agnishwar+Nath&pages=38&rating=5.0&downloads=2700&price=6.99" class="btn-outline">View Details <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- NLP Note -->
+            <div class="note-card">
+                <span class="popular-badge">TRENDING</span>
+                <div class="note-header">
+                    <h3>Natural Language Processing Fundamentals</h3>
+                    <div class="note-meta">
+                        <span class="rating">★★★★☆ (27)</span>
+                        <span class="downloads"><i class="fas fa-download"></i> 1.4k</span>
+                    </div>
+                </div>
+                <p class="course-info"><i class="fas fa-user-tie"></i> Jawad Hossain • <i class="fas fa-file-alt"></i> 25 pages</p>
+                <div class="note-footer">
+                    <span class="price">৳550</span>
+                    <a href="product.html?id=nlp101&title=Natural+Language+Processing+Fundamentals&professor=Jawad+Hossain&pages=25&rating=4.3&downloads=1400&price=5.25" class="btn-outline">View Details <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Enhanced auto-suggest functionality
+        const notes = [
+            { title: "Web Engineering - Complete Lecture Notes", course: "Web Engineering" },
+            { title: "Data Structures and Algorithms - Comprehensive Guide", course: "Computer Science" },
+            { title: "Advanced Algorithm Design Techniques", course: "Computer Science" },
+            { title: "Probability and Statistics for Engineers", course: "Statistics" },
+            { title: "Calculus III - Multivariable Concepts", course: "Mathematics" },
+            { title: "Principles of Microeconomics", course: "Economics" },
+            { title: "Financial Accounting Fundamentals", course: "Business" },
+            { title: "Natural Language Processing Fundamentals", course: "Computer Science" }
+        ];
+
+        const searchBar = document.getElementById('search-bar');
+        const suggestionsContainer = document.getElementById('suggestions');
+        const courseFilter = document.getElementById('course-filter');
+        const sortBy = document.getElementById('sort-by');
+
+        // Improved auto-suggest with debounce
+        let debounceTimer;
+        searchBar.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                showSuggestions(this.value.trim());
+            }, 300);
+        });
+
+        function showSuggestions(query) {
+            if (!query) {
+                suggestionsContainer.style.display = 'none';
+                return;
+            }
+
+            const filtered = notes.filter(note => 
+                note.title.toLowerCase().includes(query.toLowerCase()) ||
+                note.course.toLowerCase().includes(query.toLowerCase())
+            );
+
+            renderSuggestions(filtered);
+        }
+
+        function renderSuggestions(suggestions) {
+            suggestionsContainer.innerHTML = '';
+            
+            if (suggestions.length === 0) {
+                const noResults = document.createElement('div');
+                noResults.className = 'suggestion-item';
+                noResults.textContent = 'No matching notes found';
+                suggestionsContainer.appendChild(noResults);
+            } else {
+                suggestions.forEach(note => {
+                    const suggestion = document.createElement('div');
+                    suggestion.className = 'suggestion-item';
+                    
+                    const title = document.createElement('div');
+                    title.textContent = note.title;
+                    title.style.fontWeight = '500';
+                    
+                    const course = document.createElement('div');
+                    course.textContent = note.course;
+                    course.style.fontSize = '0.8rem';
+                    course.style.color = 'var(--gray)';
+                    
+                    suggestion.appendChild(title);
+                    suggestion.appendChild(course);
+                    
+                    suggestion.addEventListener('click', () => {
+                        searchBar.value = note.title;
+                        suggestionsContainer.style.display = 'none';
+                        // In a real app, you would filter the notes
+                    });
+                    
+                    suggestionsContainer.appendChild(suggestion);
+                });
+            }
+            
+            suggestionsContainer.style.display = suggestions.length ? 'block' : 'none';
+        }
+
+        // Close suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target !== searchBar) {
+                suggestionsContainer.style.display = 'none';
+            }
+        });
+
+        // Enhanced search functionality
+        document.querySelector('.search-btn').addEventListener('click', function() {
+            const query = searchBar.value.trim();
+            const course = courseFilter.value;
+            const sort = sortBy.value;
+            
+            if (query) {
+                alert(`Searching for "${query}" in ${course !== 'All Courses' ? course : 'all courses'}, sorted by ${sort}`);
+                // In a real app, this would filter the notes
+            } else {
+                alert(`Showing ${course !== 'All Courses' ? course : 'all'} courses, sorted by ${sort}`);
+            }
+        });
+
+        // Filter and sort functionality
+        courseFilter.addEventListener('change', updateNotesDisplay);
+        sortBy.addEventListener('change', updateNotesDisplay);
+
+        function updateNotesDisplay() {
+            const course = courseFilter.value;
+            const sort = sortBy.value;
+            
+            // In a real app, you would filter and sort the notes here
+            console.log(`Filtering by: ${course}, Sorting by: ${sort}`);
+        }
+
+        // Animate note cards when they come into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.note-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

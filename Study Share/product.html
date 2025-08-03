@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details | StudyShare</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <style>
+        /* Additional styles for dynamic content */
+        .product-header h1 {
+            margin-bottom: 10px;
+        }
+        .product-meta span {
+            margin-right: 15px;
+            color: #555;
+        }
+        .pricing {
+            margin: 20px 0;
+        }
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+        .original-price {
+            text-decoration: line-through;
+            color: #95a5a6;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">StudyShare</a>
+        <div class="nav-links">
+            <a href="browse.html">Browse</a>
+            <a href="upload.html">Sell Notes</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </nav>
+
+    <main class="product-container">
+        <div class="breadcrumbs" id="breadcrumbs">
+            <!-- Filled by JavaScript -->
+        </div>
+        
+        <div class="product-header">
+            <h1 id="note-title">Loading Note Details...</h1>
+            <div class="product-meta" id="product-meta">
+                <!-- Filled by JavaScript -->
+            </div>
+        </div>
+
+        <div class="product-content">
+            <div class="preview-section">
+                <h2>Protected Preview</h2>
+                <div class="preview-container">
+                    <div class="watermark-preview">
+                        <img src="assets/samples/preview-watermarked.jpg" alt="Sample with watermark">
+                        <div class="watermark-overlay">SAMPLE</div>
+                    </div>
+                    <a href="#" class="btn-secondary" id="sample-btn">Download 3-Page Sample</a>
+                </div>
+            </div>
+
+            <div class="purchase-section">
+                <div class="pricing">
+                    <span class="price" id="price">$0.00</span>
+                    <span class="original-price" id="original-price">$0.00</span>
+                </div>
+
+                <div class="security-badges">
+                    <div class="badge">
+                        <div class="badge-icon">🔒</div>
+                        <span>Watermarked PDF</span>
+                    </div>
+                    <div class="badge">
+                        <div class="badge-icon">📊</div>
+                        <span>Download Tracking</span>
+                    </div>
+                </div>
+
+                <a href="#" class="btn-primary" id="buy-button">Buy Now</a>
+
+                <div class="anti-piracy">
+                    <div class="warning-icon">⚠️</div>
+                    <div class="warning-content">
+                        <p><strong>This file will include your:</strong></p>
+                        <ul>
+                            <li>Email address</li>
+                            <li>Purchase date</li>
+                            <li>Unique ID #STU-<span class="fake-id">D8H2K9M4</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const noteId = urlParams.get('id') || 'bio101';
+            const title = decodeURIComponent(urlParams.get('title') || "Biology 101 - Midterm Notes");
+            const professor = decodeURIComponent(urlParams.get('professor') || "Professor Smith");
+            const pages = urlParams.get('pages') || "15";
+            const rating = urlParams.get('rating') || "4.2";
+            const downloads = urlParams.get('downloads') || "1200";
+            const price = urlParams.get('price') || "3.99";
+            
+            // Update page content
+            document.title = `${title} | StudyShare`;
+            document.getElementById('note-title').textContent = title;
+            document.getElementById('price').textContent = `$${price}`;
+            
+            // Calculate original price (20% more)
+            const originalPrice = (parseFloat(price) * 1.2).toFixed(2);
+            document.getElementById('original-price').textContent = `$${originalPrice}`;
+            
+            // Update product meta
+            document.getElementById('product-meta').innerHTML = `
+                <span>${professor}</span>
+                <span>${pages} pages</span>
+                <span>★ ${rating} (${downloads} reviews)</span>
+            `;
+            
+            // Update breadcrumbs
+            const course = getCourseFromTitle(title);
+            document.getElementById('breadcrumbs').innerHTML = `
+                <a href="browse.html">All Notes</a> > 
+                <a href="browse.html?course=${course.toLowerCase()}">${course}</a> > 
+                <span>${title.split(' - ')[0]}</span>
+            `;
+            
+            // Update buy button
+            const buyButton = document.getElementById('buy-button');
+            buyButton.href = `purchase.html?product=${noteId}&title=${encodeURIComponent(title)}&professor=${encodeURIComponent(professor)}&pages=${pages}&price=${price}`;
+            
+            // Sample download button
+            document.getElementById('sample-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Downloading sample for: ' + title);
+            });
+            
+            // Generate random ID
+            const fakeIdElement = document.querySelector('.fake-id');
+            if (fakeIdElement) {
+                fakeIdElement.textContent = generateRandomId();
+            }
+            
+            // Helper functions
+            function getCourseFromTitle(title) {
+                if (title.includes('Biology')) return 'Biology';
+                if (title.includes('Web') || title.includes('Computer')) return 'Computer Science';
+                if (title.includes('Chemistry')) return 'Chemistry';
+                return 'All Notes';
+            }
+            
+            function generateRandomId() {
+                const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                let result = '';
+                for (let i = 0; i < 8; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return result;
+            }
+        });
+    </script>
+</body>
+</html>

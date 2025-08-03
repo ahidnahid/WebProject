@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout | StudyShare</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <style>
+        /* Additional styles for checkout */
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .order-item h3 {
+            margin: 0 0 5px 0;
+        }
+        .order-item .price {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .payment-method {
+            border: 1px solid #ddd;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .payment-method.active {
+            border-color: #3498db;
+            background: #f0f8ff;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">StudyShare</a>
+        <div class="nav-links">
+            <a href="browse.html">Browse</a>
+            <a href="upload.html">Sell Notes</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </nav>
+
+    <main class="purchase-container">
+        <div class="breadcrumbs" id="breadcrumbs">
+            <!-- Filled by JavaScript -->
+        </div>
+
+        <div class="purchase-steps">
+            <div class="step active">
+                <div class="step-number">1</div>
+                <div class="step-label">Confirm</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-label">Payment</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-label">Download</div>
+            </div>
+        </div>
+
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <div class="order-item" id="order-item">
+                <!-- Filled by JavaScript -->
+            </div>
+
+            <div class="license-agreement">
+                <label class="agreement-checkbox">
+                    <input type="checkbox" id="agree" required>
+                    <span class="checkmark"></span>
+                    I agree to the <a href="#">Terms of Service</a>
+                </label>
+                <ul>
+                    <li>This purchase is for personal use only</li>
+                    <li>Sharing will result in account termination</li>
+                    <li>Your information will be watermarked</li>
+                </ul>
+            </div>
+
+            <div class="payment-options">
+                <h3>Select Payment Method</h3>
+                <div class="payment-methods">
+                    <button class="payment-method active">
+                        <div class="method-icon">💳</div>
+                        <span>Credit Card</span>
+                    </button>
+                    <button class="payment-method">
+                        <div class="method-icon">📱</div>
+                        <span>PayPal</span>
+                    </button>
+                </div>
+            </div>
+
+            <a href="#" class="btn-primary" id="pay-button">Pay Securely $0.00</a>
+
+            <div class="security-footer">
+                <div class="shield-icon">🛡️</div>
+                <span>256-bit encrypted payment • Your data is secure</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('product') || 'bio101';
+            const title = decodeURIComponent(urlParams.get('title') || "Biology 101 Notes");
+            const professor = decodeURIComponent(urlParams.get('professor') || "Kamily zaman");
+            const pages = urlParams.get('pages') || "45";
+            const price = urlParams.get('price') || "500";
+            
+            // Update order item
+            document.getElementById('order-item').innerHTML = `
+                <div class="item-info">
+                    <h3>${title}</h3>
+                    <p>${professor} • ${pages} pages</p>
+                </div>
+                <span class="price">$${price}</span>
+            `;
+            
+            // Update payment button
+            const payButton = document.getElementById('pay-button');
+            payButton.textContent = `Pay Securely $${price}`;
+            payButton.href = `profile.html?purchased=true&product=${productId}&title=${encodeURIComponent(title)}`;
+            
+            // Update breadcrumbs
+            document.getElementById('breadcrumbs').innerHTML = `
+                <a href="product.html?id=${productId}&title=${encodeURIComponent(title)}&professor=${encodeURIComponent(professor)}&pages=${pages}&price=${price}">← Back to Notes</a>
+            `;
+            
+            // Payment method selection
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    paymentMethods.forEach(m => m.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Form validation
+            const agreeCheckbox = document.getElementById('agree');
+            payButton.addEventListener('click', function(e) {
+                if (!agreeCheckbox.checked) {
+                    e.preventDefault();
+                    alert('Please agree to the Terms of Service before proceeding.');
+                } else {
+                    alert(`Payment successful for: ${title}\nAmount: $${price}`);
+                    // In real app, would redirect to download page
+                }
+            });
+        });
+    </script>
+</body>
+</html>
