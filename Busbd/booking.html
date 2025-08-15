@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Ticket - BusBD</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-bus"></i>
+                        <span>BusBD</span>
+                    </div>
+                    <nav class="nav">
+                        <ul class="nav-list">
+                            <li><a href="index.html" class="nav-link">Home</a></li>
+                            <li><a href="tracking.html" class="nav-link">Track Bus</a></li>
+                            <li><a href="recommendations.html" class="nav-link">Routes</a></li>
+                            <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+                            <li><a href="booking.html" class="nav-link active">Book Now</a></li>
+                        </ul>
+                    </nav>
+                    <div class="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Booking Section -->
+        <section class="booking-section">
+            <div class="container">
+                <div class="booking-header">
+                    <h1 class="page-title">Book Your Ticket</h1>
+                    <p class="page-subtitle">Simple, fast, and secure ticket booking</p>
+                </div>
+
+                <div class="booking-form-container">
+                    <form class="booking-form" id="bookingForm">
+                        <div class="form-steps">
+                            <div class="step active" data-step="1">
+                                <div class="step-number">1</div>
+                                <div class="step-label">Route</div>
+                            </div>
+                            <div class="step" data-step="2">
+                                <div class="step-number">2</div>
+                                <div class="step-label">Bus</div>
+                            </div>
+                            <div class="step" data-step="3">
+                                <div class="step-number">3</div>
+                                <div class="step-label">Seats</div>
+                            </div>
+                            <div class="step" data-step="4">
+                                <div class="step-number">4</div>
+                                <div class="step-label">Details</div>
+                            </div>
+                        </div>
+
+                        <!-- Step 1: Route Selection -->
+                        <div class="form-step active" id="step1">
+                            <h3>Select Route</h3>
+                            <div class="route-selection">
+                                <div class="form-group">
+                                    <label for="fromCity">From</label>
+                                    <select id="fromCity" required>
+                                        <option value="">Select departure city</option>
+                                        <option value="dhaka">Dhaka</option>
+                                        <option value="chittagong">Chittagong</option>
+                                        <option value="sylhet">Sylhet</option>
+                                        <option value="rajshahi">Rajshahi</option>
+                                        <option value="khulna">Khulna</option>
+                                        <option value="barisal">Barisal</option>
+                                        <option value="coxs-bazar">Cox's Bazar</option>
+                                    </select>
+                                </div>
+                                <div class="swap-cities">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
+                                <div class="form-group">
+                                    <label for="toCity">To</label>
+                                    <select id="toCity" required>
+                                        <option value="">Select destination city</option>
+                                        <option value="dhaka">Dhaka</option>
+                                        <option value="chittagong">Chittagong</option>
+                                        <option value="sylhet">Sylhet</option>
+                                        <option value="rajshahi">Rajshahi</option>
+                                        <option value="khulna">Khulna</option>
+                                        <option value="barisal">Barisal</option>
+                                        <option value="coxs-bazar">Cox's Bazar</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="departureDate">Departure Date</label>
+                                    <input type="date" id="departureDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="returnDate">Return Date (Optional)</label>
+                                    <input type="date" id="returnDate">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="roundTrip"> Round Trip
+                                </label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Bus Selection -->
+                        <div class="form-step" id="step2">
+                            <h3>Select Bus</h3>
+                            <div class="bus-options">
+                                <div class="bus-option">
+                                    <div class="bus-info">
+                                        <h4>Green Line Paribahan</h4>
+                                        <div class="bus-details">
+                                            <span><i class="fas fa-clock"></i> 6:00 AM</span>
+                                            <span><i class="fas fa-snowflake"></i> AC</span>
+                                            <span><i class="fas fa-couch"></i> Business</span>
+                                            <span><i class="fas fa-star"></i> 4.5</span>
+                                        </div>
+                                    </div>
+                                    <div class="bus-price">
+                                        <span class="price">৳800</span>
+                                        <input type="radio" name="busSelect" value="greenline" required>
+                                    </div>
+                                </div>
+                                <div class="bus-option">
+                                    <div class="bus-info">
+                                        <h4>Shohagh Paribahan</h4>
+                                        <div class="bus-details">
+                                            <span><i class="fas fa-clock"></i> 8:00 AM</span>
+                                            <span><i class="fas fa-snowflake"></i> AC</span>
+                                            <span><i class="fas fa-couch"></i> Economy</span>
+                                            <span><i class="fas fa-star"></i> 4.3</span>
+                                        </div>
+                                    </div>
+                                    <div class="bus-price">
+                                        <span class="price">৳650</span>
+                                        <input type="radio" name="busSelect" value="shohagh" required>
+                                    </div>
+                                </div>
+                                <div class="bus-option">
+                                    <div class="bus-info">
+                                        <h4>Hanif Paribahan</h4>
+                                        <div class="bus-details">
+                                            <span><i class="fas fa-clock"></i> 10:00 AM</span>
+                                            <span><i class="fas fa-snowflake"></i> Non-AC</span>
+                                            <span><i class="fas fa-couch"></i> Standard</span>
+                                            <span><i class="fas fa-star"></i> 4.1</span>
+                                        </div>
+                                    </div>
+                                    <div class="bus-price">
+                                        <span class="price">৳450</span>
+                                        <input type="radio" name="busSelect" value="hanif" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Seat Selection -->
+                        <div class="form-step" id="step3">
+                            <h3>Select Seats</h3>
+                            <div class="seat-selection">
+                                <div class="seat-legend">
+                                    <div class="legend-item">
+                                        <div class="seat available"></div>
+                                        <span>Available</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="seat selected"></div>
+                                        <span>Selected</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="seat occupied"></div>
+                                        <span>Occupied</span>
+                                    </div>
+                                </div>
+                                <div class="bus-layout">
+                                    <div class="driver-area">Driver</div>
+                                    <div class="seat-grid">
+                                        <!-- Seats will be generated by JavaScript -->
+                                    </div>
+                                </div>
+                                <div class="seat-info">
+                                    <p>Selected Seats: <span id="selectedSeats">None</span></p>
+                                    <p>Total Price: <span id="totalPrice">৳0</span></p>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Passenger Details -->
+                        <div class="form-step" id="step4">
+                            <h3>Passenger Details</h3>
+                            <div class="passenger-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <input type="text" id="firstName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <input type="text" id="lastName" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        <input type="tel" id="phone" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <textarea id="address" rows="3" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="idNumber">National ID/Passport Number</label>
+                                    <input type="text" id="idNumber" required>
+                                </div>
+                            </div>
+                            <div class="booking-summary">
+                                <h4>Booking Summary</h4>
+                                <div class="summary-details">
+                                    <div class="summary-row">
+                                        <span>Route:</span>
+                                        <span id="summaryRoute">-</span>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span>Date:</span>
+                                        <span id="summaryDate">-</span>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span>Bus:</span>
+                                        <span id="summaryBus">-</span>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span>Seats:</span>
+                                        <span id="summarySeats">-</span>
+                                    </div>
+                                    <div class="summary-row total">
+                                        <span>Total:</span>
+                                        <span id="summaryTotal">৳0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
+                                <button type="submit" class="btn btn-primary">Confirm Booking</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <div class="footer-logo">
+                            <i class="fas fa-bus"></i>
+                            <span>BusBD</span>
+                        </div>
+                        <p>Your trusted bus ticket booking platform in Bangladesh</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="tracking.html">Track Bus</a></li>
+                            <li><a href="recommendations.html">Routes</a></li>
+                            <li><a href="pricing.html">Pricing</a></li>
+                            <li><a href="booking.html">Book Now</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contact Us</h4>
+                        <div class="contact-info">
+                            <p><i class="fas fa-phone"></i> +880 1234 567 890</p>
+                            <p><i class="fas fa-envelope"></i> info@busbd.com</p>
+                            <p><i class="fas fa-map-marker-alt"></i> Dhaka, Bangladesh</p>
+                        </div>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Follow Us</h4>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 BusBD. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="booking.js"></script>
+</body>
+</html>

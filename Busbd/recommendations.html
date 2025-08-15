@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Recommendations - BusBD</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-bus"></i>
+                        <span>BusBD</span>
+                    </div>
+                    <nav class="nav">
+                        <ul class="nav-list">
+                            <li><a href="index.html" class="nav-link">Home</a></li>
+                            <li><a href="tracking.html" class="nav-link">Track Bus</a></li>
+                            <li><a href="recommendations.html" class="nav-link active">Routes</a></li>
+                            <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+                            <li><a href="booking.html" class="nav-link">Book Now</a></li>
+                        </ul>
+                    </nav>
+                    <div class="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Recommendations Section -->
+        <section class="recommendations-section">
+            <div class="container">
+                <div class="recommendations-header">
+                    <h1 class="page-title">Smart Route Recommendations</h1>
+                    <p class="page-subtitle">AI-powered personalized route suggestions based on your preferences</p>
+                </div>
+
+                <div class="recommendations-controls">
+                    <div class="search-filters">
+                        <div class="search-box">
+                            <input type="text" id="fromLocation" placeholder="From">
+                            <i class="fas fa-exchange-alt swap-icon"></i>
+                            <input type="text" id="toLocation" placeholder="To">
+                            <button class="btn btn-primary" id="searchBtn">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                        
+                        <div class="filters">
+                            <div class="filter-group">
+                                <label>Transport Type:</label>
+                                <select id="transportType">
+                                    <option value="all">All</option>
+                                    <option value="bus">Bus</option>
+                                    <option value="train">Train</option>
+                                    <option value="ferry">Ferry</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Max Price:</label>
+                                <select id="maxPrice">
+                                    <option value="any">Any</option>
+                                    <option value="500">৳500</option>
+                                    <option value="1000">৳1000</option>
+                                    <option value="1500">৳1500</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Min Rating:</label>
+                                <select id="minRating">
+                                    <option value="0">Any</option>
+                                    <option value="3">3+ Stars</option>
+                                    <option value="4">4+ Stars</option>
+                                    <option value="4.5">4.5+ Stars</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-profile">
+                    <h3>Your Travel Profile</h3>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <i class="fas fa-user"></i>
+                            <div class="stat-info">
+                                <span class="stat-label">Travel Frequency</span>
+                                <span class="stat-value">Frequent Traveler</span>
+                            </div>
+                        </div>
+                        <div class="profile-stat">
+                            <i class="fas fa-wallet"></i>
+                            <div class="stat-info">
+                                <span class="stat-label">Budget Preference</span>
+                                <span class="stat-value">Mid-range</span>
+                            </div>
+                        </div>
+                        <div class="profile-stat">
+                            <i class="fas fa-clock"></i>
+                            <div class="stat-info">
+                                <span class="stat-label">Time Preference</span>
+                                <span class="stat-value">Balanced</span>
+                            </div>
+                        </div>
+                        <div class="profile-stat">
+                            <i class="fas fa-star"></i>
+                            <div class="stat-info">
+                                <span class="stat-label">Comfort Priority</span>
+                                <span class="stat-value">High</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendations-content">
+                    <h3>Recommended Routes for You</h3>
+                    <div class="recommendations-grid">
+                        <div class="recommendation-card">
+                            <div class="recommendation-header">
+                                <div class="route-info">
+                                    <h4>Dhaka → Chittagong</h4>
+                                    <div class="route-meta">
+                                        <span class="transport-type bus"><i class="fas fa-bus"></i> Bus</span>
+                                        <span class="confidence-score">95% Match</span>
+                                    </div>
+                                </div>
+                                <div class="route-price">৳800</div>
+                            </div>
+                            <div class="recommendation-details">
+                                <div class="detail-row">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Duration: 6 hours</span>
+                                </div>
+                                <div class="detail-row">
+                                    <i class="fas fa-star"></i>
+                                    <span>Rating: 4.5/5</span>
+                                </div>
+                                <div class="detail-row">
+                                    <i class="fas fa-couch"></i>
+                                    <span>Comfort: AC Business Class</span>
+                                </div>
+                            </div>
+                            <div class="recommendation-reasons">
+                                <h5>Why recommended:</h5>
+                                <ul class="reasons-list">
+                                    <li>Matches your comfort preference</li>
+                                    <li>Best value for money on this route</li>
+                                    <li>High on-time performance</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-actions">
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-secondary">View Details</button>
+                            </div>
+                        </div>
+
+                        <div class="recommendation-card">
+                            <div class="recommendation-header">
+                                <div class="route-info">
+                                    <h4>Dhaka → Sylhet</h4>
+                                    <div class="route-meta">
+                                        <span class="transport-type train"><i class="fas fa-train"></i> Train</span>
+                                        <span class="confidence-score">88% Match</span>
+                                    </div>
+                                </div>
+                                <div class="route-price">৳550</div>
+                            </div>
+                            <div class="recommendation-details">
+                                <div class="detail-row">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Duration: 4.5 hours</span>
+                                </div>
+                                <div class="detail-row">
+                                    <i class="fas fa-star"></i>
+                                    <span>Rating: 4.3/5</span>
+                                </div>
+                                <div class="detail-row">
+                                    <i class="fas fa-couch"></i>
+                                    <span>Comfort: AC Chair Car</span>
+                                </div>
+                            </div>
+                            <div class="recommendation-reasons">
+                                <h5>Why recommended:</h5>
+                                <ul class="reasons-list">
+                                    <li>Faster than bus alternatives</li>
+                                    <li>Within your budget range</li>
+                                    <li>Scenic route experience</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-actions">
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-secondary">View Details</button>
+                            </div>
+                        </div>
+
+                        <div class="recommendation-card">
+                            <div class="recommendation-header">
+                                <div class="route-info">
+                                    <h4>Chittagong → Cox's Bazar</h4>
+                                    <div class="route-meta">
+                                        <span class="transport-type bus"><i class="fas fa-bus"></i> Bus</span>
+                                        <span class="confidence-score">82% Match</span>
+                                    </div>
+                                </div>
+                                <div class="route-price">৳400</div>
+                            </div>
+                            <div class="recommendation-details">
+                                <div class="detail-row">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Duration: 3 hours</span>
+                                </div>
+                                <div class="detail-row">
+                                    <i class="fas fa-star"></i>
+                                    <span>Rating: 4.4/5</span>
+                                </div>
+                                <div class="detail-row">
+                                    <i class="fas fa-couch"></i>
+                                    <span>Comfort: Non-AC</span>
+                                </div>
+                            </div>
+                            <div class="recommendation-reasons">
+                                <h5>Why recommended:</h5>
+                                <ul class="reasons-list">
+                                    <li>Most economical option</li>
+                                    <li>Frequent departures</li>
+                                    <li>Good customer reviews</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-actions">
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-secondary">View Details</button>
+                            </div>
+                        </div>
+
+                        <div class="recommendation-card">
+                            <div class="recommendation-header">
+                                <div class="route-info">
+                                    <h4>Dhaka → Barisal</h4>
+                                    <div class="route-meta">
+                                        <span class="transport-type ferry"><i class="fas fa-ship"></i> Ferry</span>
+                                        <span class="confidence-score">78% Match</span>
+                                    </div>
+                                </div>
+                                <div class="route-price">৳350</div>
+                            </div>
+                            <div class="recommendation-details">
+                                <div class="detail-row">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Duration: 8 hours</span>
+                                </div>
+                                <div class="detail-row">
+                                    <i class="fas fa-star"></i>
+                                    <span>Rating: 4.1/5</span>
+                                </div>
+                                <div class="detail-row">
+                                    <i class="fas fa-couch"></i>
+                                    <span>Comfort: Economy Class</span>
+                                </div>
+                            </div>
+                            <div class="recommendation-reasons">
+                                <h5>Why recommended:</h5>
+                                <ul class="reasons-list">
+                                    <li>Unique travel experience</li>
+                                    <li>Very budget-friendly</li>
+                                    <li>Scenic river journey</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-actions">
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-secondary">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <div class="footer-logo">
+                            <i class="fas fa-bus"></i>
+                            <span>BusBD</span>
+                        </div>
+                        <p>Your trusted bus ticket booking platform in Bangladesh</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="tracking.html">Track Bus</a></li>
+                            <li><a href="recommendations.html">Routes</a></li>
+                            <li><a href="pricing.html">Pricing</a></li>
+                            <li><a href="booking.html">Book Now</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contact Us</h4>
+                        <div class="contact-info">
+                            <p><i class="fas fa-phone"></i> +880 1234 567 890</p>
+                            <p><i class="fas fa-envelope"></i> info@busbd.com</p>
+                            <p><i class="fas fa-map-marker-alt"></i> Dhaka, Bangladesh</p>
+                        </div>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Follow Us</h4>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 BusBD. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="recommendations.js"></script>
+</body>
+</html>

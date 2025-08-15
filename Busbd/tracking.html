@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Tracking - BusBD</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-bus"></i>
+                        <span>BusBD</span>
+                    </div>
+                    <nav class="nav">
+                        <ul class="nav-list">
+                            <li><a href="index.html" class="nav-link">Home</a></li>
+                            <li><a href="tracking.html" class="nav-link active">Track Bus</a></li>
+                            <li><a href="recommendations.html" class="nav-link">Routes</a></li>
+                            <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+                            <li><a href="booking.html" class="nav-link">Book Now</a></li>
+                        </ul>
+                    </nav>
+                    <div class="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tracking Section -->
+        <section class="tracking-section">
+            <div class="container">
+                <div class="tracking-header">
+                    <h1 class="page-title">Real-time Bus Tracking</h1>
+                    <p class="page-subtitle">Track your bus location in real-time</p>
+                </div>
+
+                <div class="tracking-controls">
+                    <div class="search-box">
+                        <input type="text" id="busNumber" placeholder="Enter bus number or ticket ID">
+                        <button class="btn btn-primary" id="trackBtn">
+                            <i class="fas fa-search"></i> Track Bus
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tracking-content">
+                    <div class="tracking-main">
+                        <div class="map-container">
+                            <div class="map-placeholder">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <p>Interactive Map</p>
+                                <p class="map-subtitle">Real-time bus location will be shown here</p>
+                            </div>
+                        </div>
+
+                        <div class="tracking-info">
+                            <div class="info-card">
+                                <h3>Bus Information</h3>
+                                <div class="bus-details">
+                                    <div class="detail-row">
+                                        <span class="label">Bus Number:</span>
+                                        <span class="value" id="busNumberDisplay">DHK-1234</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="label">Route:</span>
+                                        <span class="value" id="routeDisplay">Dhaka → Chittagong</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="label">Status:</span>
+                                        <span class="value status-badge" id="statusDisplay">On Time</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="label">Driver:</span>
+                                        <span class="value" id="driverDisplay">Mohammed Rahman</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="label">Contact:</span>
+                                        <span class="value" id="contactDisplay">+880 1712 345 678</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="progress-card">
+                                <h3>Journey Progress</h3>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <div class="progress-info">
+                                    <div class="progress-stat">
+                                        <span class="stat-label">Distance Covered:</span>
+                                        <span class="stat-value" id="distanceCovered">180 km</span>
+                                    </div>
+                                    <div class="progress-stat">
+                                        <span class="stat-label">Remaining:</span>
+                                        <span class="stat-value" id="distanceRemaining">120 km</span>
+                                    </div>
+                                    <div class="progress-stat">
+                                        <span class="stat-label">ETA:</span>
+                                        <span class="stat-value" id="etaDisplay">2:30 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="facilities-card">
+                                <h3>Bus Facilities</h3>
+                                <div class="facilities-grid">
+                                    <div class="facility-item active">
+                                        <i class="fas fa-wifi"></i>
+                                        <span>WiFi</span>
+                                    </div>
+                                    <div class="facility-item active">
+                                        <i class="fas fa-snowflake"></i>
+                                        <span>AC</span>
+                                    </div>
+                                    <div class="facility-item active">
+                                        <i class="fas fa-tv"></i>
+                                        <span>TV</span>
+                                    </div>
+                                    <div class="facility-item active">
+                                        <i class="fas fa-plug"></i>
+                                        <span>Charging</span>
+                                    </div>
+                                    <div class="facility-item">
+                                        <i class="fas fa-utensils"></i>
+                                        <span>Food</span>
+                                    </div>
+                                    <div class="facility-item active">
+                                        <i class="fas fa-restroom"></i>
+                                        <span>Restroom</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tracking-updates">
+                    <h3>Live Updates</h3>
+                    <div class="updates-list" id="updatesList">
+                        <div class="update-item">
+                            <div class="update-time">10:30 AM</div>
+                            <div class="update-text">Bus departed from Dhaka</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-time">11:15 AM</div>
+                            <div class="update-text">Bus reached Comilla</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-time">12:00 PM</div>
+                            <div class="update-text">Bus is currently on schedule</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <div class="footer-logo">
+                            <i class="fas fa-bus"></i>
+                            <span>BusBD</span>
+                        </div>
+                        <p>Your trusted bus ticket booking platform in Bangladesh</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="tracking.html">Track Bus</a></li>
+                            <li><a href="recommendations.html">Routes</a></li>
+                            <li><a href="pricing.html">Pricing</a></li>
+                            <li><a href="booking.html">Book Now</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contact Us</h4>
+                        <div class="contact-info">
+                            <p><i class="fas fa-phone"></i> +880 1234 567 890</p>
+                            <p><i class="fas fa-envelope"></i> info@busbd.com</p>
+                            <p><i class="fas fa-map-marker-alt"></i> Dhaka, Bangladesh</p>
+                        </div>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Follow Us</h4>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 BusBD. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="tracking.js"></script>
+</body>
+</html>

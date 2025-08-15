@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Pricing - BusBD</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-bus"></i>
+                        <span>BusBD</span>
+                    </div>
+                    <nav class="nav">
+                        <ul class="nav-list">
+                            <li><a href="index.html" class="nav-link">Home</a></li>
+                            <li><a href="tracking.html" class="nav-link">Track Bus</a></li>
+                            <li><a href="recommendations.html" class="nav-link">Routes</a></li>
+                            <li><a href="pricing.html" class="nav-link active">Pricing</a></li>
+                            <li><a href="booking.html" class="nav-link">Book Now</a></li>
+                        </ul>
+                    </nav>
+                    <div class="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Pricing Section -->
+        <section class="pricing-section">
+            <div class="container">
+                <div class="pricing-header">
+                    <h1 class="page-title">Dynamic Pricing System</h1>
+                    <p class="page-subtitle">Real-time price analysis and predictions for optimal booking</p>
+                </div>
+
+                <div class="pricing-controls">
+                    <div class="route-selector">
+                        <select id="routeSelect">
+                            <option value="dhaka-chittagong">Dhaka → Chittagong</option>
+                            <option value="dhaka-sylhet">Dhaka → Sylhet</option>
+                            <option value="dhaka-rajshahi">Dhaka → Rajshahi</option>
+                            <option value="chittagong-coxsbazar">Chittagong → Cox's Bazar</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pricing-dashboard">
+                    <div class="pricing-main">
+                        <div class="current-price-card">
+                            <h3>Current Price</h3>
+                            <div class="price-display">
+                                <span class="price-amount" id="currentPrice">৳850</span>
+                                <span class="price-change" id="priceChange">
+                                    <i class="fas fa-arrow-up"></i> ৳50 (6.3%)
+                                </span>
+                            </div>
+                            <div class="price-meta">
+                                <span class="last-updated">Last updated: <span id="lastUpdated">2 mins ago</span></span>
+                            </div>
+                        </div>
+
+                        <div class="price-chart">
+                            <h3>Price Trend (24 Hours)</h3>
+                            <div class="chart-container">
+                                <canvas id="priceChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="factors-card">
+                            <h3>Price Influencing Factors</h3>
+                            <div class="factors-grid">
+                                <div class="factor-item high">
+                                    <div class="factor-header">
+                                        <i class="fas fa-users"></i>
+                                        <span>Demand</span>
+                                        <span class="factor-impact">High</span>
+                                    </div>
+                                    <div class="factor-bar">
+                                        <div class="factor-fill" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                <div class="factor-item medium">
+                                    <div class="factor-header">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Time of Day</span>
+                                        <span class="factor-impact">Medium</span>
+                                    </div>
+                                    <div class="factor-bar">
+                                        <div class="factor-fill" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                                <div class="factor-item low">
+                                    <div class="factor-header">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <span>Season</span>
+                                        <span class="factor-impact">Low</span>
+                                    </div>
+                                    <div class="factor-bar">
+                                        <div class="factor-fill" style="width: 30%"></div>
+                                    </div>
+                                </div>
+                                <div class="factor-item medium">
+                                    <div class="factor-header">
+                                        <i class="fas fa-cloud-sun"></i>
+                                        <span>Weather</span>
+                                        <span class="factor-impact">Medium</span>
+                                    </div>
+                                    <div class="factor-bar">
+                                        <div class="factor-fill" style="width: 45%"></div>
+                                    </div>
+                                </div>
+                                <div class="factor-item high">
+                                    <div class="factor-header">
+                                        <i class="fas fa-calendar-day"></i>
+                                        <span>Day of Week</span>
+                                        <span class="factor-impact">High</span>
+                                    </div>
+                                    <div class="factor-bar">
+                                        <div class="factor-fill" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                                <div class="factor-item low">
+                                    <div class="factor-header">
+                                        <i class="fas fa-gas-pump"></i>
+                                        <span>Fuel Price</span>
+                                        <span class="factor-impact">Low</span>
+                                    </div>
+                                    <div class="factor-bar">
+                                        <div class="factor-fill" style="width: 25%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pricing-sidebar">
+                        <div class="prediction-card">
+                            <h3>Price Prediction</h3>
+                            <div class="prediction-content">
+                                <div class="prediction-item">
+                                    <span class="prediction-label">Next 6 hours:</span>
+                                    <span class="prediction-value" id="prediction6h">৳880 (+3.5%)</span>
+                                </div>
+                                <div class="prediction-item">
+                                    <span class="prediction-label">Next 12 hours:</span>
+                                    <span class="prediction-value" id="prediction12h">৳920 (+8.2%)</span>
+                                </div>
+                                <div class="prediction-item">
+                                    <span class="prediction-label">Next 24 hours:</span>
+                                    <span class="prediction-value" id="prediction24h">৳860 (+1.2%)</span>
+                                </div>
+                            </div>
+                            <div class="prediction-confidence">
+                                <span>Confidence: <strong id="confidenceLevel">87%</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="recommendation-card">
+                            <h3>AI Recommendation</h3>
+                            <div class="recommendation-content">
+                                <div class="recommendation-text" id="aiRecommendation">
+                                    Book now for best price. Prices are expected to rise in the next 12 hours due to increased demand.
+                                </div>
+                                <div class="recommendation-actions">
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-secondary">Set Alert</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="price-history-card">
+                            <h3>Price History</h3>
+                            <div class="history-stats">
+                                <div class="history-stat">
+                                    <span class="stat-label">24h Low:</span>
+                                    <span class="stat-value" id="price24hLow">৳780</span>
+                                </div>
+                                <div class="history-stat">
+                                    <span class="stat-label">24h High:</span>
+                                    <span class="stat-value" id="price24hHigh">৳920</span>
+                                </div>
+                                <div class="history-stat">
+                                    <span class="stat-label">Average:</span>
+                                    <span class="stat-value" id="priceAverage">৳835</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="optimization-tips">
+                            <h3>Optimization Tips</h3>
+                            <ul class="tips-list">
+                                <li><i class="fas fa-lightbulb"></i> Book 2-3 days in advance for best prices</li>
+                                <li><i class="fas fa-lightbulb"></i> Avoid peak hours (6-9 AM, 5-8 PM)</li>
+                                <li><i class="fas fa-lightbulb"></i> Weekday travel is typically cheaper</li>
+                                <li><i class="fas fa-lightbulb"></i> Consider off-season travel for discounts</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <div class="footer-logo">
+                            <i class="fas fa-bus"></i>
+                            <span>BusBD</span>
+                        </div>
+                        <p>Your trusted bus ticket booking platform in Bangladesh</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="tracking.html">Track Bus</a></li>
+                            <li><a href="recommendations.html">Routes</a></li>
+                            <li><a href="pricing.html">Pricing</a></li>
+                            <li><a href="booking.html">Book Now</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contact Us</h4>
+                        <div class="contact-info">
+                            <p><i class="fas fa-phone"></i> +880 1234 567 890</p>
+                            <p><i class="fas fa-envelope"></i> info@busbd.com</p>
+                            <p><i class="fas fa-map-marker-alt"></i> Dhaka, Bangladesh</p>
+                        </div>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Follow Us</h4>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 BusBD. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="pricing.js"></script>
+</body>
+</html>
